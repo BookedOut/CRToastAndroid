@@ -28,6 +28,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     SeekBar seekBar;
     Switch imageSwitch;
     Switch dismissSwitch;
+    Switch statusBarVisibleSwitch;
+    Switch insideActionBarSwitch;
 
 
     private Gravity from = Gravity.Top;
@@ -53,6 +55,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         imageSwitch = (Switch) findViewById(R.id.imageSwitch);
         dismissSwitch = (Switch) findViewById(R.id.dismissSwitch);
+        statusBarVisibleSwitch = (Switch) findViewById(R.id.statusBarVisibleSwitch);
+        insideActionBarSwitch = (Switch) findViewById(R.id.insideActionBarSwitch);
         final TextView longTextView = (TextView) findViewById(R.id.longTextView);
         seekBar.setMax(10);
         longTextView.setText(String.valueOf(currentDurationValue) + " sec");
@@ -102,7 +106,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                 .notificationMessage(notificationEditText.getText().toString())
                 .subtitleText(subtitleEditText.getText().toString())
                 .duration(currentDurationValue*1000)
-                .dismissWithTap(dismissSwitch.isChecked());
+                .dismissWithTap(dismissSwitch.isChecked())
+                .statusBarVisible(statusBarVisibleSwitch.isChecked())
+                .insideActionBar(insideActionBarSwitch.isChecked());
         if(imageSwitch.isChecked()){
             builder.image(getResources().getDrawable(R.drawable.ic_launcher));
         }

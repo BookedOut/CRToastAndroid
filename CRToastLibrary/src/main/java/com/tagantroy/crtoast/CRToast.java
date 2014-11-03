@@ -2,11 +2,14 @@ package com.tagantroy.crtoast;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,23 +19,20 @@ import android.widget.TextView;
 
 public class CRToast {
 
-    private final WindowManager.LayoutParams LAYOUT_PARAMS = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.TYPE_TOAST,
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-            PixelFormat.RGB_888);
-
+    public static final float STATUS_BAR_MARGIN = 0.05F;
     Thread timer;
 
     private AnimationStyle animationStyle;
     private int duration;
     private int backgroundColor;
-    private boolean isImage;
+    private int height;
     private Drawable image;
     private boolean isDismissibleWithTap;
+    private boolean isImage;
+    private boolean isStatusBarVisible;
+    private boolean isInsideActionBar;
     private String notificationMessage;
     private String subtitleText;
-    private int height;
 
     private Activity activity;
     private LinearLayout toast;
@@ -41,14 +41,16 @@ public class CRToast {
 
     public static class Builder {
         private AnimationStyle animationStyle = AnimationStyle.TopToTop;
-        private String notificationMessage = "";
-        private String subtitleText = "";
         private int duration = 1000;
         private int backgroundColor = Color.RED;
-        private boolean isImage = false;
+        private int height = 72;
         private Drawable image = null;
         private boolean isDismissibleWithTap = false;
-        private int height = 72;
+        private boolean isImage = false;
+        private boolean isInsideActionBar = false;
+        private boolean isStatusBarVisible = false;
+        private String notificationMessage = "";
+        private String subtitleText = "";
 
         private Activity activity;
 
@@ -97,6 +99,16 @@ public class CRToast {
             return this;
         }
 
+        public Builder statusBarVisible(boolean val){
+            isStatusBarVisible = val;
+            return this;
+        }
+
+        public Builder insideActionBar(boolean val){
+            isInsideActionBar = val;
+            return this;
+        }
+
         public CRToast build() {
             return new CRToast(this);
         }
@@ -110,6 +122,8 @@ public class CRToast {
         image = builder.image;
         height = builder.height;
         isDismissibleWithTap = builder.isDismissibleWithTap;
+        isStatusBarVisible = builder.isStatusBarVisible;
+        isInsideActionBar = builder.isInsideActionBar;
         notificationMessage = builder.notificationMessage;
         subtitleText = builder.subtitleText;
         activity = builder.activity;
@@ -119,14 +133,8 @@ public class CRToast {
         toast = (LinearLayout) activity.getLayoutInflater()
                 .inflate(R.layout.toast, null);
 
-        int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
-
         windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-
-        LAYOUT_PARAMS.width = ActionBar.LayoutParams.MATCH_PARENT;
-        LAYOUT_PARAMS.height = statusBarHeight;
-        LAYOUT_PARAMS.gravity = Gravity.TOP;
-        LAYOUT_PARAMS.windowAnimations = animationStyle.getStyle(activity);
+        getLayoutParams();
 
         TextView message = (TextView) toast.findViewById(R.id.notificationMessage);
         TextView subtitle = (TextView) toast.findViewById(R.id.subtitleText);
@@ -143,14 +151,39 @@ public class CRToast {
                 }
             });
         }
-
         if (isImage) {
             ImageView customImageView = (ImageView) toast.findViewById(R.id.customImageView);
             customImageView.setImageDrawable(image);
         }
-
-        windowManager.addView(toast, LAYOUT_PARAMS);
+        windowManager.addView(toast, getLayoutParams());
         startTimer(duration);
+    }
+
+    private WindowManager.LayoutParams getLayoutParams() {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
+
+        if (!isStatusBarVisible){
+            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+        }else{
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            layoutParams.verticalMargin = STATUS_BAR_MARGIN;
+        }
+
+        if(isInsideActionBar){
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            layoutParams.verticalMargin = STATUS_BAR_MARGIN;
+            statusBarHeight = activity.getActionBar().getHeight();
+        }
+
+        layoutParams.flags =  WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        layoutParams.format = PixelFormat.RGB_888;
+        layoutParams.width = ActionBar.LayoutParams.MATCH_PARENT;
+        layoutParams.height = statusBarHeight;
+        layoutParams.gravity = Gravity.TOP;
+        layoutParams.windowAnimations = animationStyle.getStyle(activity);
+        return layoutParams;
     }
 
     public void dismiss() {

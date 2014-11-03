@@ -94,7 +94,7 @@
             android:layout_alignEnd="@+id/longTextView"
             android:layout_alignRight="@+id/longTextView"
             android:layout_below="@+id/longTextView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:text="New Switch"
             android:enabled="true" />
 
@@ -132,7 +132,7 @@
             android:layout_alignEnd="@+id/longTextView"
             android:layout_alignRight="@+id/longTextView"
             android:layout_below="@+id/imageSwitch"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:text="New Switch"
             android:enabled="true" />
 
@@ -146,21 +146,62 @@
             android:layout_alignLeft="@+id/textView"
             android:layout_alignStart="@+id/textView"/>
 
+        <Switch
+            android:id="@+id/statusBarVisibleSwitch"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignEnd="@+id/longTextView"
+            android:layout_alignRight="@+id/longTextView"
+            android:layout_below="@+id/dismissSwitch"
+            android:layout_marginTop="7dp"
+            android:text="New Switch"
+            android:enabled="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status Bar Visible"
+            android:id="@+id/textView5"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/textView4"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"/>
+
+        <Switch
+            android:id="@+id/insideActionBarSwitch"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignEnd="@+id/longTextView"
+            android:layout_alignRight="@+id/longTextView"
+            android:layout_below="@+id/statusBarVisibleSwitch"
+            android:layout_marginTop="7dp"
+            android:text="New Switch"
+            android:enabled="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inside ActionBar"
+            android:id="@+id/textView6"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/textView5"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notification Text"
-            android:id="@+id/textView6"
+            android:id="@+id/notificationtextView"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/textView4"
+            android:layout_below="@+id/textView6"
             android:layout_centerHorizontal="true" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notificationEditText"
-            android:layout_below="@+id/textView6"
+            android:layout_below="@+id/notificationtextView"
             android:layout_alignLeft="@+id/textView3"
             android:layout_alignStart="@+id/textView3"
             android:layout_alignRight="@+id/imageSwitch"
@@ -170,7 +211,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notification subtitle"
-            android:id="@+id/textView7"
+            android:id="@+id/subtitleTextView"
             android:layout_below="@+id/notificationEditText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp" />
@@ -179,7 +220,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/subtitleEditText"
-            android:layout_below="@+id/textView7"
+            android:layout_below="@+id/subtitleTextView"
             android:layout_alignLeft="@+id/notificationEditText"
             android:layout_alignStart="@+id/notificationEditText"
             android:layout_alignRight="@+id/notificationEditText"
