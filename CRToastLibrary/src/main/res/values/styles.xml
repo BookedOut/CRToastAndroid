@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomToBottom">
+        <item name="android:windowEnterAnimation">@anim/in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_bottom</item>
+    </style>
+    <style name="BottomToLeft">
+        <item name="android:windowEnterAnimation">@anim/in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_left</item>
+    </style>
+    <style name="BottomToRight">
+        <item name="android:windowEnterAnimation">@anim/in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_right</item>
+    </style>
+    <style name="BottomToTop">
+        <item name="android:windowEnterAnimation">@anim/in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_top</item>
+    </style>
+
+    <style name="LeftToBottom">
+        <item name="android:windowEnterAnimation">@anim/in_left</item>
+        <item name="android:windowExitAnimation">@anim/out_bottom</item>
+    </style>
+    <style name="LeftToLeft">
+        <item name="android:windowEnterAnimation">@anim/in_left</item>
+        <item name="android:windowExitAnimation">@anim/out_left</item>
+    </style>
+    <style name="LeftToRight">
+        <item name="android:windowEnterAnimation">@anim/in_left</item>
+        <item name="android:windowExitAnimation">@anim/out_right</item>
+    </style>
+    <style name="LeftToTop">
+        <item name="android:windowEnterAnimation">@anim/in_left</item>
+        <item name="android:windowExitAnimation">@anim/out_top</item>
+    </style>
+
+
+    <style name="RightToBottom">
+        <item name="android:windowEnterAnimation">@anim/in_right</item>
+        <item name="android:windowExitAnimation">@anim/out_bottom</item>
+    </style>
+    <style name="RightToLeft">
+        <item name="android:windowEnterAnimation">@anim/in_right</item>
+        <item name="android:windowExitAnimation">@anim/out_left</item>
+    </style>
+    <style name="RightToRight">
+        <item name="android:windowEnterAnimation">@anim/in_right</item>
+        <item name="android:windowExitAnimation">@anim/out_right</item>
+    </style>
+    <style name="RightToTop">
+        <item name="android:windowEnterAnimation">@anim/in_right</item>
+        <item name="android:windowExitAnimation">@anim/out_top</item>
+    </style>
+
+    <style name="TopToBottom">
+        <item name="android:windowEnterAnimation">@anim/in_top</item>
+        <item name="android:windowExitAnimation">@anim/out_bottom</item>
+    </style>
+    <style name="TopToLeft">
+        <item name="android:windowEnterAnimation">@anim/in_top</item>
+        <item name="android:windowExitAnimation">@anim/out_left</item>
+    </style>
+    <style name="TopToRight">
+        <item name="android:windowEnterAnimation">@anim/in_top</item>
+        <item name="android:windowExitAnimation">@anim/out_right</item>
+    </style>
+    <style name="TopToTop">
+        <item name="android:windowEnterAnimation">@anim/in_top</item>
+        <item name="android:windowExitAnimation">@anim/out_top</item>
+    </style>
+</resources>

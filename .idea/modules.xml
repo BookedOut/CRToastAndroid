@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CRToastAndroid.iml" filepath="$PROJECT_DIR$/CRToastAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/CRToastLibrary/CRToastLibrary.iml" filepath="$PROJECT_DIR$/CRToastLibrary/CRToastLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Demo.iml" filepath="$PROJECT_DIR$/app/Demo.iml" />
     </modules>
   </component>
 </project>

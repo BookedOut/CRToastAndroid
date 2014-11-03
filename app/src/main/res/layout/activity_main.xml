@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,14 +12,14 @@
             android:layout_alignParentRight="false"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
             <RadioButton
                 android:id="@+id/fromTopButton"
                 style="@style/RadioButton"
-                android:checked="false"
-                android:text="From Top"
-                android:enabled="true" />
+                android:checked="true"
+                android:text="From Top"/>
 
             <RadioButton
                 android:id="@+id/fromBottomButton"
@@ -58,7 +54,7 @@
             <RadioButton
                 android:id="@+id/toTopButton"
                 style="@style/RadioButton"
-                android:checked="false"
+                android:checked="true"
                 android:text="To Top"
                 android:enabled="true" />
 
@@ -92,12 +88,12 @@
             android:layout_below="@+id/segmentedTo" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/imageSwitch"
             android:layout_width="50dp"
             android:layout_height="20dp"
-            android:layout_alignEnd="@+id/textView2"
-            android:layout_alignRight="@+id/textView2"
-            android:layout_below="@+id/textView2"
+            android:layout_alignEnd="@+id/longTextView"
+            android:layout_alignRight="@+id/longTextView"
+            android:layout_below="@+id/longTextView"
             android:layout_marginTop="10dp"
             android:text="New Switch"
             android:enabled="true" />
@@ -112,7 +108,7 @@
             android:text="Duration" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/longTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/seekBar"
@@ -124,334 +120,101 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/switch1"
+            android:layout_alignBottom="@+id/imageSwitch"
             android:layout_alignLeft="@+id/textView"
             android:layout_alignStart="@+id/textView"
             android:text="Image" />
 
         <Switch
-            android:id="@+id/switch2"
+            android:id="@+id/dismissSwitch"
             android:layout_width="50dp"
             android:layout_height="20dp"
-            android:layout_alignLeft="@+id/switch1"
-            android:layout_alignStart="@+id/switch1"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="5dp"
+            android:layout_alignEnd="@+id/longTextView"
+            android:layout_alignRight="@+id/longTextView"
+            android:layout_below="@+id/imageSwitch"
+            android:layout_marginTop="10dp"
             android:text="New Switch"
             android:enabled="true" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/switch2"
+            android:text="Dismissible with Tap"
+            android:id="@+id/textView4"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/textView3"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification Text"
+            android:id="@+id/textView6"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notificationEditText"
+            android:layout_below="@+id/textView6"
             android:layout_alignLeft="@+id/textView3"
             android:layout_alignStart="@+id/textView3"
-            android:text="Cover Nav bar" />
-
-        <Switch
-            android:id="@+id/switch3"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignLeft="@+id/switch2"
-            android:layout_alignStart="@+id/switch2"
-            android:layout_below="@+id/switch2"
-            android:layout_marginTop="5dp"
-            android:text="New Switch"
-            android:enabled="true" />
+            android:layout_alignRight="@+id/imageSwitch"
+            android:layout_alignEnd="@+id/imageSwitch" />
 
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/switch3"
-            android:layout_alignLeft="@+id/textView4"
-            android:layout_alignStart="@+id/textView4"
-            android:text="Slide Over Status and Nav Bar" />
-
-        <Switch
-            android:id="@+id/switch4"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignEnd="@+id/switch3"
-            android:layout_alignRight="@+id/switch3"
-            android:layout_below="@+id/textView5"
-            android:layout_marginTop="5dp"
-            android:text="New Switch" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/switch4"
-            android:layout_alignLeft="@+id/textView5"
-            android:layout_alignStart="@+id/textView5"
-            android:text="Status Bar Visible" />
-
-        <Switch
-            android:id="@+id/switch5"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignEnd="@+id/switch4"
-            android:layout_alignRight="@+id/switch4"
-            android:layout_below="@+id/textView6"
-            android:layout_marginTop="5dp"
-            android:text="New Switch" />
-
-        <Switch
-            android:id="@+id/switch6"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignEnd="@+id/switch5"
-            android:layout_alignRight="@+id/switch5"
-            android:layout_below="@+id/switch5"
-            android:layout_marginTop="5dp"
-            android:text="New Switch"
-            android:enabled="true" />
-
-        <Switch
-            android:id="@+id/switch7"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignEnd="@+id/switch6"
-            android:layout_alignRight="@+id/switch6"
-            android:layout_below="@+id/switch6"
-            android:layout_marginTop="5dp"
-            android:text="New Switch"
-            android:enabled="true" />
-
-        <TextView
+            android:text="Notification subtitle"
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/switch6"
-            android:layout_alignLeft="@+id/textView6"
-            android:layout_alignStart="@+id/textView6"
-            android:text="Dismissible with Tap" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/switch7"
-            android:layout_alignLeft="@+id/textView7"
-            android:layout_alignStart="@+id/textView7"
-            android:text="Status bar" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/switch7"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
-            android:text="Action Bar" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView9"
+            android:layout_below="@+id/notificationEditText"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="Enctance Animation Type" />
-
-        <info.hoang8f.android.segmented.SegmentedGroup
-            android:id="@+id/segmentedEntranceAnimationType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_below="@+id/textView10"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/linearEntranceAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Linear"
-                android:enabled="true" />
-
-            <RadioButton
-                android:id="@+id/springEntranceAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Spring" />
-
-            <RadioButton
-                android:id="@+id/gravityEntranceAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Gravity" />
-        </info.hoang8f.android.segmented.SegmentedGroup>
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/segmentedEntranceAnimationType"
-            android:layout_centerHorizontal="true"
-            android:text="Exit Animation Type" />
-
-        <info.hoang8f.android.segmented.SegmentedGroup
-            android:id="@+id/segmentedExitAnimationType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_below="@+id/textView11"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/linearExitAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Linear"
-                android:enabled="true" />
-
-            <RadioButton
-                android:id="@+id/springExitAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Spring" />
-
-            <RadioButton
-                android:id="@+id/gravityExitAnimationTypeButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Gravity" />
-        </info.hoang8f.android.segmented.SegmentedGroup>
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/segmentedExitAnimationType"
-            android:layout_centerHorizontal="true"
-            android:text="Notification Text" />
-
-        <info.hoang8f.android.segmented.SegmentedGroup
-            android:id="@+id/segmentedNotificationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_below="@+id/textView12"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/centerNotificationTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Left"
-                android:enabled="true" />
-
-            <RadioButton
-                android:id="@+id/leftNotificationTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Center" />
-
-            <RadioButton
-                android:id="@+id/rightNotificationTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Right" />
-        </info.hoang8f.android.segmented.SegmentedGroup>
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:text="Subtitle Text" />
-
-        <info.hoang8f.android.segmented.SegmentedGroup
-            android:id="@+id/segmentedSubtitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentTop="false"
-            android:layout_below="@+id/textView13"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/leftSubtitleTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Left"
-                android:enabled="true" />
-
-            <RadioButton
-                android:id="@+id/centerSubtitleTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Center" />
-
-            <RadioButton
-                android:id="@+id/rightSubtitleTextButton"
-                style="@style/RadioButton"
-                android:checked="false"
-                android:text="Align Right" />
-        </info.hoang8f.android.segmented.SegmentedGroup>
+            android:layout_marginTop="10dp" />
 
         <EditText
-            android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/segmentedExitAnimationType"
-            android:layout_alignLeft="@+id/segmentedExitAnimationType"
-            android:layout_alignRight="@+id/segmentedExitAnimationType"
-            android:layout_alignStart="@+id/segmentedExitAnimationType"
-            android:layout_below="@+id/segmentedNotificationText" />
+            android:id="@+id/subtitleEditText"
+            android:layout_below="@+id/textView7"
+            android:layout_alignLeft="@+id/notificationEditText"
+            android:layout_alignStart="@+id/notificationEditText"
+            android:layout_alignRight="@+id/notificationEditText"
+            android:layout_alignEnd="@+id/notificationEditText" />
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/segmentedSubtitleText"
-            android:layout_alignRight="@+id/segmentedSubtitleText"
-            android:layout_below="@+id/segmentedSubtitleText"
-            android:layout_toEndOf="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3" />
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:layout_margin="5dp">
 
-        <TextView
-            android:id="@+id/showNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView5"
-            android:layout_alignLeft="@+id/segmentedSubtitleText"
-            android:layout_alignRight="@+id/textView5"
-            android:layout_alignStart="@+id/segmentedSubtitleText"
-            android:layout_below="@+id/editText2"
-            android:layout_marginTop="10dp"
-            android:text="Show Notification"
-            android:textSize="18dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp" />
+            <TextView
+                android:id="@+id/showNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="Show Notification"
+                android:textSize="20sp"
+                android:layout_alignTop="@+id/dismiss"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/dismiss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/showNotification"
-            android:text="Dismiss"
-            android:textSize="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp" />
+            <TextView
+                android:id="@+id/dismiss"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dismiss"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
 
     </RelativeLayout>
-</ScrollView>

@@ -1,65 +1,51 @@
 package com.tagantroy.crtoast;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.Gravity;
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import com.tagantroy.crtoast.enums.AnimationFrom;
-import com.tagantroy.crtoast.enums.AnimationTo;
-import com.tagantroy.crtoast.enums.EntranceAnimation;
-import com.tagantroy.crtoast.enums.ExitAnimation;
-import com.tagantroy.crtoast.enums.NotificationAlign;
-import com.tagantroy.crtoast.enums.SubtitleAlign;
+import android.widget.TextView;
 
 public class CRToast {
 
-    private AnimationFrom animationFrom;
-    private AnimationTo animationTo;
-    private EntranceAnimation entranceAnimation;
-    private ExitAnimation exitAnimation;
-    private NotificationAlign notificationAlign;
-    private SubtitleAlign subtitleAlign;
+    private final WindowManager.LayoutParams LAYOUT_PARAMS = new WindowManager.LayoutParams(
+            WindowManager.LayoutParams.TYPE_TOAST,
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            PixelFormat.RGB_888);
 
-    private double duration;
+    Thread timer;
+
+    private AnimationStyle animationStyle;
+    private int duration;
     private boolean isImage;
     private Drawable image;
-    private boolean isCoverActionBar;
-    private boolean isSlideOverStatusAndActionBar;
-    private boolean isStatusBarVisible;
     private boolean isDismissibleWithTap;
-    private boolean showStatusBar;
-    private boolean showActionBar;
     private String notificationMessage;
     private String subtitleText;
     private int height;
 
     private Activity activity;
+    private LinearLayout toast;
+
+    WindowManager windowManager;
 
     public static class Builder {
-        private AnimationFrom animationFrom = AnimationFrom.TOP;
-        private AnimationTo animationTo = AnimationTo.TOP;
-        private EntranceAnimation entranceAnimation = EntranceAnimation.LINEAR;
-        private ExitAnimation exitAnimation = ExitAnimation.LINEAR;
-        private NotificationAlign notificationAlign = NotificationAlign.LEFT;
-        private SubtitleAlign subtitleAlign = SubtitleAlign.LEFT;
+        private AnimationStyle animationStyle = AnimationStyle.TopToTop;
         private String notificationMessage = "";
         private String subtitleText = "";
-
-        private double duration = 1;
+        private int duration = 1000;
         private boolean isImage = false;
         private Drawable image = null;
-        private boolean isCoverActionBar = true;
-        private boolean isSlideOverStatusAndActionBar = true;
-        private boolean isStatusBarVisible = false;
         private boolean isDismissibleWithTap = false;
-        private boolean showStatusBar = true;
-        private boolean showActionBar = true;
-        private int height = 40;
+        private int height = 72;
 
         private Activity activity;
 
@@ -67,33 +53,8 @@ public class CRToast {
             this.activity = activity;
         }
 
-        public Builder animationFrom(AnimationFrom val) {
-            animationFrom = val;
-            return this;
-        }
-
-        public Builder animationTo(AnimationTo val) {
-            animationTo = val;
-            return this;
-        }
-
-        public Builder entranceAnimation(EntranceAnimation val) {
-            entranceAnimation = val;
-            return this;
-        }
-
-        public Builder exitAnimation(ExitAnimation val) {
-            exitAnimation = val;
-            return this;
-        }
-
-        public Builder notificationAlign(NotificationAlign val) {
-            notificationAlign = val;
-            return this;
-        }
-
-        public Builder subtitleAlign(SubtitleAlign val) {
-            subtitleAlign = val;
+        public Builder animationStyle(AnimationStyle val) {
+            animationStyle = val;
             return this;
         }
 
@@ -107,7 +68,7 @@ public class CRToast {
             return this;
         }
 
-        public Builder duration(double val) {
+        public Builder duration(int val) {
             duration = val;
             return this;
         }
@@ -118,35 +79,11 @@ public class CRToast {
             return this;
         }
 
-        public Builder coverActionBar(boolean val) {
-            isCoverActionBar = val;
-            return this;
-        }
-
-        public Builder slideOverStatusAndActionBar(boolean val) {
-            isSlideOverStatusAndActionBar = val;
-            return this;
-        }
-
-        public Builder statusBarVisible(boolean val) {
-            isStatusBarVisible = val;
-            return this;
-        }
-
         public Builder dismissWithTap(boolean val) {
             isDismissibleWithTap = val;
             return this;
         }
 
-        public Builder showStatusBar(boolean val) {
-            showStatusBar = val;
-            return this;
-        }
-
-        public Builder showActionBar(boolean val) {
-            showActionBar = val;
-            return this;
-        }
 
         public Builder customHeight(int val) {
             height = val;
@@ -159,48 +96,82 @@ public class CRToast {
     }
 
     private CRToast(Builder builder) {
-        animationFrom = builder.animationFrom;
-        animationTo = builder.animationTo;
-        entranceAnimation = builder.entranceAnimation;
-        exitAnimation = builder.exitAnimation;
-        notificationAlign = builder.notificationAlign;
-        subtitleAlign = builder.subtitleAlign;
-
+        animationStyle = builder.animationStyle;
         duration = builder.duration;
         isImage = builder.isImage;
         image = builder.image;
-        isCoverActionBar = builder.isCoverActionBar;
-        isSlideOverStatusAndActionBar = builder.isSlideOverStatusAndActionBar;
-        isStatusBarVisible = builder.isStatusBarVisible;
+        height = builder.height;
         isDismissibleWithTap = builder.isDismissibleWithTap;
-        showStatusBar = builder.showStatusBar;
-        showActionBar = builder.showActionBar;
         notificationMessage = builder.notificationMessage;
         subtitleText = builder.subtitleText;
         activity = builder.activity;
     }
 
     public void show() {
-        LinearLayout toast = (LinearLayout) activity.getLayoutInflater()
+        toast = (LinearLayout) activity.getLayoutInflater()
                 .inflate(R.layout.toast, null);
 
-        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        int statusBarHeight = (int) Math.ceil(60 * activity.getResources().getDisplayMetrics().density);
+        int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                statusBarHeight,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+        LAYOUT_PARAMS.width = ActionBar.LayoutParams.MATCH_PARENT;
+        LAYOUT_PARAMS.height = statusBarHeight;
+        LAYOUT_PARAMS.gravity = Gravity.TOP;
+        LAYOUT_PARAMS.windowAnimations = animationStyle.getStyle(activity);
 
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+        if(isDismissibleWithTap){
+            toast.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    removeToast();
+                }
+            });
+        }
 
-                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-                PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.RIGHT | Gravity.TOP;
-        wm.addView(toast, params);
+        TextView message = (TextView) toast.findViewById(R.id.notificationMessage);
+        message.setText(notificationMessage);
+        TextView subtitle = (TextView) toast.findViewById(R.id.subtitleText);
+        subtitle.setText(subtitleText);
+
+        if(isImage){
+            ImageView customImageView = (ImageView)toast.findViewById(R.id.customImageView);
+            customImageView.setImageDrawable(image);
+        }
+
+        windowManager.addView(toast,LAYOUT_PARAMS);
+        startTimer(duration);
     }
 
+    public void dismiss(){
+        removeToast();
+    }
 
+    private synchronized void removeToast() {
+        if(toast != null){
+            windowManager.removeView(toast);
+            toast=null;
+        }
+    }
+
+    private void startTimer(final int duration) {
+        final Handler handler = new Handler();
+        timer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(duration);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            removeToast();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        timer.start();
+    }
 }
