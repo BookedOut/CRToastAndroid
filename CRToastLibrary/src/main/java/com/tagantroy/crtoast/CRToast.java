@@ -2,14 +2,11 @@ package com.tagantroy.crtoast;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -127,14 +124,12 @@ public class CRToast {
         notificationMessage = builder.notificationMessage;
         subtitleText = builder.subtitleText;
         activity = builder.activity;
+        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
     }
 
     public void show() {
         toast = (LinearLayout) activity.getLayoutInflater()
                 .inflate(R.layout.toast, null);
-
-        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        getLayoutParams();
 
         TextView message = (TextView) toast.findViewById(R.id.notificationMessage);
         TextView subtitle = (TextView) toast.findViewById(R.id.subtitleText);
