@@ -5,8 +5,11 @@ CRToastAndroid
 CRToastAndroid is a library that allows you to easily create notifications that appear on top.
 CRToastAndroid is a port for original CRToast for Android(IOS https://github.com/cruffenach/CRToast)
 
-Example 
 
+
+#### Example
+
+```	java
 CRToast.Builder builder = new CRToast.Builder(this)
   .animationStyle(getAnimationStyle())
   .notificationMessage("Notification Message")
@@ -17,4 +20,4 @@ CRToast.Builder builder = new CRToast.Builder(this)
 
 crToast = builder.build();
 crToast.show();
-
+```
