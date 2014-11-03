@@ -3,6 +3,7 @@ package com.tagantroy.crtoast;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -25,6 +26,7 @@ public class CRToast {
 
     private AnimationStyle animationStyle;
     private int duration;
+    private int backgroundColor;
     private boolean isImage;
     private Drawable image;
     private boolean isDismissibleWithTap;
@@ -42,6 +44,7 @@ public class CRToast {
         private String notificationMessage = "";
         private String subtitleText = "";
         private int duration = 1000;
+        private int backgroundColor = Color.RED;
         private boolean isImage = false;
         private Drawable image = null;
         private boolean isDismissibleWithTap = false;
@@ -58,13 +61,18 @@ public class CRToast {
             return this;
         }
 
-        public Builder notificationMessage(String val) {
-            notificationMessage = val;
+        public Builder backgroundColor(int val){
+            backgroundColor = val;
             return this;
         }
 
-        public Builder subtitleText(String val) {
-            subtitleText = val;
+        public Builder customHeight(int val) {
+            height = val;
+            return this;
+        }
+
+        public Builder dismissWithTap(boolean val) {
+            isDismissibleWithTap = val;
             return this;
         }
 
@@ -79,14 +87,13 @@ public class CRToast {
             return this;
         }
 
-        public Builder dismissWithTap(boolean val) {
-            isDismissibleWithTap = val;
+        public Builder notificationMessage(String val) {
+            notificationMessage = val;
             return this;
         }
 
-
-        public Builder customHeight(int val) {
-            height = val;
+        public Builder subtitleText(String val) {
+            subtitleText = val;
             return this;
         }
 
@@ -97,6 +104,7 @@ public class CRToast {
 
     private CRToast(Builder builder) {
         animationStyle = builder.animationStyle;
+        backgroundColor = builder.backgroundColor;
         duration = builder.duration;
         isImage = builder.isImage;
         image = builder.image;
@@ -120,7 +128,14 @@ public class CRToast {
         LAYOUT_PARAMS.gravity = Gravity.TOP;
         LAYOUT_PARAMS.windowAnimations = animationStyle.getStyle(activity);
 
-        if(isDismissibleWithTap){
+        TextView message = (TextView) toast.findViewById(R.id.notificationMessage);
+        TextView subtitle = (TextView) toast.findViewById(R.id.subtitleText);
+
+        toast.setBackgroundColor(backgroundColor);
+        subtitle.setText(subtitleText);
+        message.setText(notificationMessage);
+
+        if (isDismissibleWithTap) {
             toast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -129,28 +144,23 @@ public class CRToast {
             });
         }
 
-        TextView message = (TextView) toast.findViewById(R.id.notificationMessage);
-        message.setText(notificationMessage);
-        TextView subtitle = (TextView) toast.findViewById(R.id.subtitleText);
-        subtitle.setText(subtitleText);
-
-        if(isImage){
-            ImageView customImageView = (ImageView)toast.findViewById(R.id.customImageView);
+        if (isImage) {
+            ImageView customImageView = (ImageView) toast.findViewById(R.id.customImageView);
             customImageView.setImageDrawable(image);
         }
 
-        windowManager.addView(toast,LAYOUT_PARAMS);
+        windowManager.addView(toast, LAYOUT_PARAMS);
         startTimer(duration);
     }
 
-    public void dismiss(){
+    public void dismiss() {
         removeToast();
     }
 
     private synchronized void removeToast() {
-        if(toast != null){
+        if (toast != null) {
             windowManager.removeView(toast);
-            toast=null;
+            toast = null;
         }
     }
 
