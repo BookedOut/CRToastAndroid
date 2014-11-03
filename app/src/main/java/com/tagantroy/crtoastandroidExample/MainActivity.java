@@ -30,17 +30,10 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     Switch dismissSwitch;
 
 
-    private FROM from = FROM.Top;
-    private TO to = TO.Top;
+    private Gravity from = Gravity.Top;
+    private Gravity to = Gravity.Top;
 
-    enum FROM {
-        Bottom,
-        Left,
-        Right,
-        Top
-    }
-
-    enum TO {
+    enum Gravity {
         Bottom,
         Left,
         Right,
@@ -72,16 +65,13 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         notificationEditText = (EditText) findViewById(R.id.notificationEditText);
         subtitleEditText = (EditText) findViewById(R.id.subtitleEditText);
-
 
         notificationEditText.setText("Notification");
         subtitleEditText.setText("SubTitle");
@@ -146,28 +136,28 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i) {
             case R.id.fromBottomButton:
-                from = FROM.Bottom;
+                from = Gravity.Bottom;
                 break;
             case R.id.fromLeftButton:
-                from = FROM.Left;
+                from = Gravity.Left;
                 break;
             case R.id.fromRightButton:
-                from = FROM.Right;
+                from = Gravity.Right;
                 break;
             case R.id.fromTopButton:
-                from = FROM.Top;
+                from = Gravity.Top;
                 break;
             case R.id.toBottomButton:
-                to = TO.Bottom;
+                to = Gravity.Bottom;
                 break;
             case R.id.toLeftButton:
-                to = TO.Left;
+                to = Gravity.Left;
                 break;
             case R.id.toRightButton:
-                to = TO.Right;
+                to = Gravity.Right;
                 break;
             case R.id.toTopButton:
-                to = TO.Top;
+                to = Gravity.Top;
                 break;
         }
     }
