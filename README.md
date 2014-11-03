@@ -5,7 +5,6 @@ CRToastAndroid is a library that allows you to easily create notifications that 
 This library is implementation [CRToast](https://github.com/cruffenach/CRToast) for android 
 
 Original project [CRToast](https://github.com/cruffenach/CRToast)
-Author: Collin Ruffenach
 
 #### Example
 
