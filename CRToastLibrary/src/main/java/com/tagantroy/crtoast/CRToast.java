@@ -18,7 +18,6 @@ import android.widget.TextView;
 public class CRToast {
 
     public static final float STATUS_BAR_MARGIN = 0.05F;
-    private static final String TAG = "CRToast";
     Thread timer;
 
     private AnimationStyle animationStyle;
@@ -32,9 +31,10 @@ public class CRToast {
     private boolean isInsideActionBar;
     private String notificationMessage;
     private String subtitleText;
+    private View customView;
 
     private Activity activity;
-    private LinearLayout view;
+    private View view;
 
     WindowManager windowManager;
 
@@ -50,6 +50,7 @@ public class CRToast {
         private boolean isStatusBarVisible = false;
         private String notificationMessage = "";
         private String subtitleText = "";
+        private View customView=null;
 
         private Activity activity;
 
@@ -69,6 +70,11 @@ public class CRToast {
 
         public Builder customHeight(int val) {
             height = val;
+            return this;
+        }
+
+        public Builder customView(View val){
+            customView = val;
             return this;
         }
 
@@ -126,8 +132,14 @@ public class CRToast {
         notificationMessage = builder.notificationMessage;
         subtitleText = builder.subtitleText;
         activity = builder.activity;
+        customView=builder.customView;
         windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        view = generateToast();
+
+        if(customView!=null){
+            view = customView;
+        }else{
+            view = generateToast();
+        }
     }
 
     void show() {
