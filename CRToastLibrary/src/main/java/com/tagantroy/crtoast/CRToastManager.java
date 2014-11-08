@@ -21,7 +21,7 @@ public class CRToastManager {
     }
 
     public static boolean hasNext(){
-        return toastQueue.size()>0;
+        return toastQueue.iterator().hasNext();
     }
 
     public static void showNext(){
