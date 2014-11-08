@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tagantroy.crtoast.AnimationStyle;
 import com.tagantroy.crtoast.CRToast;
+import com.tagantroy.crtoast.CRToastManager;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -97,7 +98,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     private void dismissToast() {
-        crToast.dismiss();
+        CRToastManager.dismiss();
     }
 
     private void showToast() {
@@ -113,14 +114,12 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             builder.image(getResources().getDrawable(R.drawable.ic_launcher));
         }
         crToast = builder.build();
-        crToast.show();
-
+        CRToastManager.show(crToast);
     }
 
     private AnimationStyle getAnimationStyle() {
         return AnimationStyle.valueOf(from.name() + "To" + to.name());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
