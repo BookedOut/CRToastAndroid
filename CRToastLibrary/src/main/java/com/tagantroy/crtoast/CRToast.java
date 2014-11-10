@@ -198,7 +198,7 @@ public class CRToast {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    removeToast();
+                    CRToastManager.dismiss();
                 }
             });
         }
