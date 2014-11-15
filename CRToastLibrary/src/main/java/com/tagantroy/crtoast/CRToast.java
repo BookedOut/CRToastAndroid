@@ -132,8 +132,8 @@ public class CRToast {
         subtitleText = builder.subtitleText;
         activity = builder.activity;
         customView=builder.customView;
-        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-
+        windowManager = (WindowManager) activity
+                .getSystemService(Context.WINDOW_SERVICE);
         if(customView!=null){
             view = customView;
         }else{
@@ -193,7 +193,6 @@ public class CRToast {
         TextView message = (TextView) view.findViewById(messageId);
         TextView subtitle = (TextView) view.findViewById(subtitleId);
         ImageView customImageView = (ImageView) view.findViewById(customImageViewId);
-
         view.setBackgroundColor(backgroundColor);
         subtitle.setText(subtitleText);
         message.setText(notificationMessage);
