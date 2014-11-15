@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class CRToastManager {
+
     private static final Queue<CRToast> toastQueue = new ConcurrentLinkedQueue<CRToast>();
 
     public synchronized static void show(CRToast toast){

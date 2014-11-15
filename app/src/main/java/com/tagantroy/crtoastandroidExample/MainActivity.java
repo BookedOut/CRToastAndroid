@@ -2,14 +2,17 @@ package com.tagantroy.crtoastandroidExample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.tagantroy.crtoast.AnimationStyle;
 import com.tagantroy.crtoast.CRToast;
@@ -42,7 +45,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         Right,
         Top
     }
-
+    PopupWindow popupWindow;
     int currentDurationValue = 1;
 
     @Override

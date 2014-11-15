@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -152,7 +151,11 @@ public class CRToast {
     }
 
     private synchronized void removeToast() {
-        windowManager.removeView(view);
+        try {
+            if (view != null) {
+                windowManager.removeView(view);
+            }
+        }catch (IllegalArgumentException e){}
     }
 
     private void startTimer(final int duration) {
