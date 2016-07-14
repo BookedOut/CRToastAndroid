@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 public class CRToast {
 
+    public interface ICRToast{
+         boolean onTapped();
+    }
+
     public static final float STATUS_BAR_MARGIN = 0.05F;
     Thread timer;
 
@@ -31,7 +35,7 @@ public class CRToast {
     private String notificationMessage;
     private String subtitleText;
     private View customView;
-
+    private ICRToast icrToast;
     private Activity activity;
     private View view;
 
@@ -39,7 +43,7 @@ public class CRToast {
 
     public static class Builder {
         private AnimationStyle animationStyle = AnimationStyle.TopToTop;
-        private int duration = 1000;
+        private int duration = -1;
         private int backgroundColor = Color.RED;
         private int height = 72;
         private Drawable image = null;
@@ -50,6 +54,7 @@ public class CRToast {
         private String notificationMessage = "";
         private String subtitleText = "";
         private View customView=null;
+        private ICRToast icrToast = null;
 
         private Activity activity;
 
@@ -79,6 +84,11 @@ public class CRToast {
 
         public Builder dismissWithTap(boolean val) {
             isDismissibleWithTap = val;
+            return this;
+        }
+
+        public Builder setOnTapped(ICRToast val){
+            icrToast = val;
             return this;
         }
 
@@ -126,6 +136,7 @@ public class CRToast {
         image = builder.image;
         height = builder.height;
         isDismissibleWithTap = builder.isDismissibleWithTap;
+        icrToast =  builder.icrToast;
         isStatusBarVisible = builder.isStatusBarVisible;
         isInsideActionBar = builder.isInsideActionBar;
         notificationMessage = builder.notificationMessage;
@@ -143,7 +154,8 @@ public class CRToast {
 
     void show() {
         windowManager.addView(view, getLayoutParams());
-        startTimer(duration);
+        if(duration!=-1)
+            startTimer(duration);
     }
 
     void dismiss() {
@@ -196,14 +208,25 @@ public class CRToast {
         view.setBackgroundColor(backgroundColor);
         subtitle.setText(subtitleText);
         message.setText(notificationMessage);
-        if (isDismissibleWithTap) {
+        if(icrToast!=null){
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CRToastManager.dismiss();
+                    if(icrToast.onTapped())
+                        CRToastManager.dismiss();
                 }
             });
+        }else{
+            if (isDismissibleWithTap) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CRToastManager.dismiss();
+                    }
+                });
+            }
         }
+
         if (isImage) {
             customImageView.setImageDrawable(image);
         }
