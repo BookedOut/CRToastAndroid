@@ -87,7 +87,7 @@ public class CRToast {
             return this;
         }
 
-        public Builder setOnTapped(ICRToast val){
+        public Builder onTapped(ICRToast val){
             icrToast = val;
             return this;
         }
