@@ -44,3 +44,19 @@ LinearLayout view = new LinearLayout(this);
         crToast = builder.build();
         CRToastManager.show(crToast);
 ```
+### Added Handler for onTapped
+
+Dismiss with Tap wont work out if handler is implemented
+
+``` java
+ builder.animationStyle(getAnimationStyle())
+                .notificationMessage(notificationEditText.getText().toString())
+                .subtitleText(subtitleEditText.getText().toString())
+                .insideActionBar(true)
+                .setOnTapped(new CRToast.ICRToast(){
+                        @Override
+                        public boolean onTapped(){
+                            return true;// to dismiss
+                        }
+                    });
+```
