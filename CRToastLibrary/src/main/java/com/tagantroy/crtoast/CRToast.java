@@ -144,6 +144,7 @@ public class CRToast {
         activity = builder.activity;
         customView=builder.customView;
         windowManager = (WindowManager) activity
+                .getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         if(customView!=null){
             view = customView;
