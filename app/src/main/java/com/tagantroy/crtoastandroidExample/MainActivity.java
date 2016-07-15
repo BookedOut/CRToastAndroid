@@ -101,7 +101,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     private void showToast() {
-        CRToast.Builder builder = new CRToast.Builder(this);
+        CRToast.Builder builder = new CRToast.Builder();
         builder.animationStyle(getAnimationStyle())
                 .notificationMessage(notificationEditText.getText().toString())
                 .subtitleText(subtitleEditText.getText().toString())
