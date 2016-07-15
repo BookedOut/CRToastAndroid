@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -43,6 +44,14 @@ public class CRToast {
     private boolean isStatusBarVisible;
     private boolean isInsideActionBar;
     private String notificationMessage;
+    private int notificationMessageColor = -1;
+    private int subTitleColor = -1;
+    private Typeface notificationMessageFont = null;
+    private int notificationMessageFontSize = -1;
+    private Typeface subTitleFont = null;
+    private int notificationMessageGravity = -1;
+    private int subTitleGravity = -1;
+    private int subTitleFontSize = -1;
     private String subtitleText;
     private View customView;
     private ICRToast icrToast;
@@ -62,6 +71,14 @@ public class CRToast {
         private boolean isInsideActionBar = false;
         private boolean isStatusBarVisible = false;
         private String notificationMessage = "";
+        private int notificationMessageColor = -1;
+        private int subTitleColor = -1;
+        private Typeface notificationMessageFont = null;
+        private int notificationMessageFontSize = -1;
+        private Typeface subTitleFont = null;
+        private int subTitleFontSize = -1;
+        private int notificationMessageGravity = -1;
+        private int subTitleGravity = -1;
         private String subtitleText = "";
         private View customView=null;
         private ICRToast icrToast = null;
@@ -105,6 +122,38 @@ public class CRToast {
 
         public Builder backgroundColor(int val) {
             backgroundColor = val;
+            return this;
+        }
+
+        public Builder notificationMessageColor(int val){
+            notificationMessageColor = val;
+            return this;
+        }
+
+        public Builder subTitleColor(int val){
+            subTitleColor = val;
+            return this;
+        }
+
+        public Builder notificationMessageFont(Typeface val,int fontSize){
+            notificationMessageFont = val;
+            notificationMessageFontSize = fontSize;
+            return this;
+        }
+
+        public Builder subTitleFont(Typeface val,int fontSize){
+            subTitleFont = val;
+            subTitleFontSize = fontSize;
+            return this;
+        }
+
+        public Builder notificationMessageGravity(int val){
+            notificationMessageGravity = val;
+            return this;
+        }
+
+        public Builder subTitleGravity(int val){
+            subTitleGravity = val;
             return this;
         }
 
@@ -177,6 +226,14 @@ public class CRToast {
         isInsideActionBar = builder.isInsideActionBar;
         notificationMessage = builder.notificationMessage;
         subtitleText = builder.subtitleText;
+        notificationMessageColor = builder.notificationMessageColor;
+        subTitleColor = builder.subTitleColor;
+        notificationMessageFont = builder.notificationMessageFont;
+        notificationMessageFontSize = builder.notificationMessageFontSize;
+        subTitleFont = builder.subTitleFont;
+        subTitleFontSize = builder.subTitleFontSize;
+        notificationMessageGravity = builder.notificationMessageGravity;
+        subTitleGravity = builder.subTitleGravity;
         activity = builder.activity;
         customView=builder.customView;
         windowManager = (WindowManager) activity
@@ -240,6 +297,31 @@ public class CRToast {
                 .getIdentifier("customImageView", "id", activity.getPackageName());
         TextView message = (TextView) view.findViewById(messageId);
         TextView subtitle = (TextView) view.findViewById(subtitleId);
+
+        if(notificationMessageColor!=-1){
+            message.setTextColor(notificationMessageColor);
+        }
+        if(notificationMessageFont!=null){
+            message.setTypeface(notificationMessageFont);
+        }
+        if(notificationMessageFontSize!=-1){
+            message.setTextSize(notificationMessageFontSize);
+        }
+        if(notificationMessageGravity!=-1){
+            message.setGravity(notificationMessageGravity);
+        }
+        if(subTitleColor!=-1){
+            subtitle.setTextColor(subTitleColor);
+        }
+        if(subTitleFont!=null){
+            subtitle.setTypeface(subTitleFont);
+        }
+        if(subTitleFontSize!=-1){
+            subtitle.setTextSize(subTitleFontSize);
+        }
+        if(subTitleGravity!=-1){
+            subtitle.setGravity(subTitleGravity);
+        }
         ImageView customImageView = (ImageView) view.findViewById(customImageViewId);
         view.setBackgroundColor(backgroundColor);
         subtitle.setText(subtitleText);
@@ -274,7 +356,7 @@ public class CRToast {
         int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
 
         if (!isStatusBarVisible) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         } else {
             layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
             layoutParams.verticalMargin = STATUS_BAR_MARGIN;
