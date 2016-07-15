@@ -61,7 +61,8 @@ public class CRToast {
     private ICRToast icrToast;
     private Activity activity;
     private View view;
-
+    private boolean isHomeButtonEnabled = false;
+    private boolean isBackButtonEnabled = false;
     WindowManager windowManager;
 
     public static class Builder {
@@ -73,6 +74,8 @@ public class CRToast {
         private boolean isDismissibleWithTap = false;
         private boolean isImage = false;
         private boolean isInsideActionBar = false;
+        private boolean isHomeButtonEnabled = false;
+        private boolean isBackButtonEnabled = false;
         private String notificationMessage = "";
         private int notificationMessageColor = 0;
         private int subTitleColor = 0;
@@ -160,6 +163,16 @@ public class CRToast {
             return this;
         }
 
+        public Builder homeButtonEnabled(boolean val){
+            isHomeButtonEnabled = val;
+            return this;
+        }
+
+        public Builder backButtonEnabled(boolean val){
+            isBackButtonEnabled = val;
+            return this;
+        }
+
         public Builder customHeight(int val) {
             height = val;
             return this;
@@ -233,6 +246,8 @@ public class CRToast {
         subTitleGravity = builder.subTitleGravity;
         activity = builder.activity;
         customView=builder.customView;
+        isBackButtonEnabled = builder.isBackButtonEnabled;
+        isHomeButtonEnabled = builder.isHomeButtonEnabled;
         windowManager = (WindowManager) activity
                 .getSystemService(Context.WINDOW_SERVICE);
         if(customView!=null){
@@ -355,21 +370,28 @@ public class CRToast {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
 
+        if(isHomeButtonEnabled )
+            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+        else
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+
         if (!isStatusBarVisible()) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        } else {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
             layoutParams.verticalMargin = STATUS_BAR_MARGIN;
         }
 
         if (isInsideActionBar) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
             layoutParams.verticalMargin = STATUS_BAR_MARGIN;
             statusBarHeight = activity.getActionBar().getHeight();
         }
+        if(isBackButtonEnabled){
+            layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        }else {
+            layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        }
 
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         layoutParams.format = PixelFormat.RGB_888;
         layoutParams.width = ActionBar.LayoutParams.MATCH_PARENT;
         layoutParams.height = statusBarHeight;
