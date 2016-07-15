@@ -1,12 +1,18 @@
 package com.tagantroy.crtoast;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,10 +20,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 public class CRToast {
 
     public interface ICRToast{
-         boolean onTapped();
+        boolean onTapped();
     }
 
     public static final float STATUS_BAR_MARGIN = 0.05F;
@@ -58,8 +68,34 @@ public class CRToast {
 
         private Activity activity;
 
-        public Builder(Activity activity) {
-            this.activity = activity;
+        public Builder() {
+            this.activity = getRunningActivity();
+        }
+
+        @TargetApi(Build.VERSION_CODES.KITKAT)
+        private Activity getRunningActivity() {
+            try {
+                Class activityThreadClass = Class.forName("android.app.ActivityThread");
+                Object activityThread = activityThreadClass.getMethod("currentActivityThread")
+                        .invoke(null);
+                Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
+                activitiesField.setAccessible(true);
+                Map activities = (Map) activitiesField.get(activityThread);
+                for (Object activityRecord : activities.values()) {
+                    Class activityRecordClass = activityRecord.getClass();
+                    Field pausedField = activityRecordClass.getDeclaredField("paused");
+                    pausedField.setAccessible(true);
+                    if (!pausedField.getBoolean(activityRecord)) {
+                        Field activityField = activityRecordClass.getDeclaredField("activity");
+                        activityField.setAccessible(true);
+                        return (Activity) activityField.get(activityRecord);
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            throw new RuntimeException("Didn't find the running activity");
         }
 
         public Builder animationStyle(AnimationStyle val) {
@@ -144,7 +180,6 @@ public class CRToast {
         activity = builder.activity;
         customView=builder.customView;
         windowManager = (WindowManager) activity
-                .getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         if(customView!=null){
             view = customView;
