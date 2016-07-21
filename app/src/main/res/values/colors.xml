@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_messages_title_background_color">#7485AA</color>
+    <color name="new_message_notification_background_color">#0093ED</color>
+    <color name="new_message_notification_title_color">#FFFFFF</color>
+
+</resources>

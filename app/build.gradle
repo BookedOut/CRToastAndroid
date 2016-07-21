@@ -15,6 +15,7 @@ android {
 
 dependencies {
     compile 'info.hoang8f:android-segmented:1.0.2'
+    compile 'com.android.support:support-v4:23.0.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':CRToastLibrary')
 }

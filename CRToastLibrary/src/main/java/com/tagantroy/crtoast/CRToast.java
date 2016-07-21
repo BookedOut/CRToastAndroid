@@ -95,6 +95,10 @@ public class CRToast {
             this.activity = getRunningActivity();
         }
 
+        public Builder(Activity activity) {
+            this.activity = activity;
+        }
+
         @TargetApi(Build.VERSION_CODES.KITKAT)
         private Activity getRunningActivity() {
             try {
