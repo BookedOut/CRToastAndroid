@@ -3,31 +3,21 @@ package com.tagantroy.crtoast;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.util.ArrayMap;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 public class CRToast {
@@ -370,9 +360,18 @@ public class CRToast {
         return view;
     }
 
+    private int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
     private WindowManager.LayoutParams getLayoutParams() {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        int statusBarHeight = (int) Math.ceil(height * activity.getResources().getDisplayMetrics().density);
+        int statusBarHeight = getStatusBarHeight(activity);
 
         if(isHomeButtonEnabled )
             layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
@@ -385,7 +384,6 @@ public class CRToast {
 
         if (isInsideActionBar) {
             layoutParams.verticalMargin = STATUS_BAR_MARGIN;
-            statusBarHeight = activity.getActionBar().getHeight();
         }
         if(isBackButtonEnabled){
             layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
