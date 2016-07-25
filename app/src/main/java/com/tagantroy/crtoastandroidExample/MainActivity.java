@@ -1,15 +1,14 @@
 package com.tagantroy.crtoastandroidExample;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -105,37 +104,59 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     private void showToast() {
-        TextView notificationTextView = new TextView(this);
-        notificationTextView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        notificationTextView.setTextColor(ContextCompat.getColor(this,android.R.color.white));
-        //notificationTextView.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Asap-Bold.otf"));
-        notificationTextView.setTextSize((int)getResources().getDimension(R.dimen.new_message_notification_font_size));
-        notificationTextView.setText("Test");
-        notificationTextView.setBackgroundColor(ContextCompat.getColor(this,R.color.new_message_notification_background_color));
-        notificationTextView.setGravity(android.view.Gravity.CENTER);
+//        TextView notificationTextView = new TextView(this);
+//        notificationTextView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        notificationTextView.setTextColor(ContextCompat.getColor(this,android.R.color.white));
+//        //notificationTextView.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Asap-Bold.otf"));
+//        notificationTextView.setTextSize((int)getResources().getDimension(R.dimen.new_message_notification_font_size));
+//        notificationTextView.setText("Test");
+//        notificationTextView.setBackgroundColor(ContextCompat.getColor(this,R.color.new_message_notification_background_color));
+//        notificationTextView.setGravity(android.view.Gravity.CENTER);
+//
+//        CRToast.Builder builder = new CRToast.Builder(this);
+//        builder.animationStyle(getAnimationStyle())
+//                .notificationMessage(notificationEditText.getText().toString())
+//                .subtitleText(subtitleEditText.getText().toString())
+//                //.duration(currentDurationValue*1000)
+//                .backButtonEnabled(true)
+//                .dismissWithTap(dismissSwitch.isChecked())
+//                .customHeight((int)getResources().getDimension(R.dimen.new_message_notification_height))
+//                .customView(notificationTextView)
+//                .onTapped(new CRToast.ICRToast() {
+//                    @Override
+//                    public boolean onTapped() {
+//                        Log.v("TESt","Dismissed");
+//                        return true;
+//                    }
+//                });
+//
+//        if(imageSwitch.isChecked()){
+//            builder.image(getResources().getDrawable(R.drawable.ic_launcher));
+//        }
+//        crToast = builder.build();
+//        CRToastManager.show(crToast);
 
-        CRToast.Builder builder = new CRToast.Builder(this);
-        builder.animationStyle(getAnimationStyle())
-                .notificationMessage(notificationEditText.getText().toString())
-                .subtitleText(subtitleEditText.getText().toString())
-                //.duration(currentDurationValue*1000)
-                .backButtonEnabled(true)
-                .dismissWithTap(dismissSwitch.isChecked())
-                .customHeight((int)getResources().getDimension(R.dimen.new_message_notification_height))
-                .customView(notificationTextView)
-                .onTapped(new CRToast.ICRToast() {
-                    @Override
-                    public boolean onTapped() {
-                        Log.v("TESt","Dismissed");
-                        return true;
-                    }
-                });
-
-        if(imageSwitch.isChecked()){
-            builder.image(getResources().getDrawable(R.drawable.ic_launcher));
-        }
-        crToast = builder.build();
-        CRToastManager.show(crToast);
+            try {
+                CRToast.Builder builder = new CRToast.Builder(this);
+                builder.animationStyle(AnimationStyle.TopToTop)
+                        .notificationMessage("You have a new message!")
+                        .backgroundColor(ContextCompat.getColor(this, R.color.new_message_notification_background_color))
+                        .customHeight((int) this.getResources().getDimension(R.dimen.new_message_notification_height))
+                        .notificationMessageColor(Color.WHITE)
+                        .notificationLayoutGravity(android.view.Gravity.CENTER)
+                        .notificationMessageGravity(android.view.Gravity.CENTER)
+                        .onTapped(new CRToast.ICRToast() {
+                            @Override
+                            public boolean onTapped() {
+                                Log.v("TESt","Dismissed");
+                                return true;
+                            }
+                        });
+                CRToast crToast = builder.build();
+                CRToastManager.show(crToast);
+            } catch (Exception e) {
+                Log.d(MainActivity.class.getSimpleName(), "Exception showing notification: " + e.getMessage());
+            }
     }
 
     private AnimationStyle getAnimationStyle() {

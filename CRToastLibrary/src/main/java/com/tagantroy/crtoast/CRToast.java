@@ -43,6 +43,7 @@ public class CRToast {
     private Typeface notificationMessageFont = null;
     private int notificationMessageFontSize = -1;
     private Typeface subTitleFont = null;
+    private int notificationLayoutGravity = -1;
     private int notificationMessageGravity = -1;
     private int subTitleGravity = -1;
     private int subTitleFontSize = -1;
@@ -73,6 +74,7 @@ public class CRToast {
         private int notificationMessageFontSize = -1;
         private Typeface subTitleFont = null;
         private int subTitleFontSize = -1;
+        private int notificationLayoutGravity = -1;
         private int notificationMessageGravity = -1;
         private int subTitleGravity = -1;
         private String subtitleText = "";
@@ -144,6 +146,11 @@ public class CRToast {
         public Builder subTitleFont(Typeface val,int fontSize){
             subTitleFont = val;
             subTitleFontSize = fontSize;
+            return this;
+        }
+
+        public Builder notificationLayoutGravity(int val) {
+            notificationLayoutGravity = val;
             return this;
         }
 
@@ -236,6 +243,7 @@ public class CRToast {
         notificationMessageFontSize = builder.notificationMessageFontSize;
         subTitleFont = builder.subTitleFont;
         subTitleFontSize = builder.subTitleFontSize;
+        notificationLayoutGravity = builder.notificationLayoutGravity;
         notificationMessageGravity = builder.notificationMessageGravity;
         subTitleGravity = builder.subTitleGravity;
         activity = builder.activity;
@@ -307,8 +315,12 @@ public class CRToast {
 
         int toastXML = activity.getResources()
                 .getIdentifier("toast", "layout", activity.getPackageName());
+
         LinearLayout view = (LinearLayout) activity.getLayoutInflater()
                 .inflate(toastXML, null);
+
+        int notificationLayoutId = activity.getResources().getIdentifier("notificationLayoutHolder", "id", activity.getPackageName());
+
         int messageId = activity.getResources()
                 .getIdentifier("notificationMessage", "id", activity.getPackageName());
         int subtitleId = activity.getResources()
@@ -318,6 +330,8 @@ public class CRToast {
 
         int marginViewId = activity.getResources()
                 .getIdentifier("marginView", "id", activity.getPackageName());
+
+        LinearLayout notificationLayoutHolder = (LinearLayout) view.findViewById(notificationLayoutId);
 
         LinearLayout marginLL = (LinearLayout) view.findViewById(marginViewId);
         LinearLayout.LayoutParams tempParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, statusBarHeight);
@@ -363,6 +377,9 @@ public class CRToast {
         }
         if(notificationMessageFontSize!=-1){
             message.setTextSize(notificationMessageFontSize/ activity.getResources().getDisplayMetrics().density);
+        }
+        if(notificationLayoutGravity != -1) {
+            notificationLayoutHolder.setGravity(notificationLayoutGravity);
         }
         if(notificationMessageGravity!=-1){
             message.setGravity(notificationMessageGravity);

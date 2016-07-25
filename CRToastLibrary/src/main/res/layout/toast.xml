@@ -12,16 +12,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/notificationLayoutHolder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/customImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="5dp"/>
         <LinearLayout
             android:layout_width="match_parent"
