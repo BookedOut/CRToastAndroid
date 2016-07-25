@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +27,6 @@ public class CRToast {
         boolean onTapped();
     }
 
-    public static final float STATUS_BAR_MARGIN = 0.035F;
     Thread timer;
 
     private AnimationStyle animationStyle;
@@ -239,15 +239,27 @@ public class CRToast {
         notificationMessageGravity = builder.notificationMessageGravity;
         subTitleGravity = builder.subTitleGravity;
         activity = builder.activity;
-        customView=builder.customView;
+        customView = builder.customView;
         isBackButtonEnabled = builder.isBackButtonEnabled;
         isHomeButtonEnabled = builder.isHomeButtonEnabled;
         windowManager = (WindowManager) activity
                 .getSystemService(Context.WINDOW_SERVICE);
-        if(customView!=null){
+        if(customView != null){
             view = customView;
-        }else{
+        } else {
             view = generateToast();
+        }
+
+        int statusBarPadding = getStatusBarHeight(activity);
+
+        if (isStatusBarVisible()) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(0, statusBarPadding, 0, statusBarPadding);
+            view.setLayoutParams(lp);
+        }
+
+        if (isInsideActionBar) {
+            view.setPadding(0, statusBarPadding, 0, 0);
         }
     }
 
@@ -291,6 +303,8 @@ public class CRToast {
     }
 
     private LinearLayout generateToast() {
+        int statusBarHeight = getStatusBarHeight(activity);
+
         int toastXML = activity.getResources()
                 .getIdentifier("toast", "layout", activity.getPackageName());
         LinearLayout view = (LinearLayout) activity.getLayoutInflater()
@@ -301,6 +315,14 @@ public class CRToast {
                 .getIdentifier("subtitleText", "id", activity.getPackageName());
         int customImageViewId = activity.getResources()
                 .getIdentifier("customImageView", "id", activity.getPackageName());
+
+        int marginViewId = activity.getResources()
+                .getIdentifier("marginView", "id", activity.getPackageName());
+
+        LinearLayout marginLL = (LinearLayout) view.findViewById(marginViewId);
+        LinearLayout.LayoutParams tempParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, statusBarHeight);
+        marginLL.setLayoutParams(tempParams);
+
         TextView message = (TextView) view.findViewById(messageId);
         TextView subtitle = (TextView) view.findViewById(subtitleId);
 
@@ -371,32 +393,24 @@ public class CRToast {
 
     private WindowManager.LayoutParams getLayoutParams() {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        int statusBarHeight = getStatusBarHeight(activity);
 
         if(isHomeButtonEnabled )
             layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
         else
             layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 
-        if (!isStatusBarVisible()) {
-            layoutParams.verticalMargin = STATUS_BAR_MARGIN;
-        }
-
-        if (isInsideActionBar) {
-            layoutParams.verticalMargin = STATUS_BAR_MARGIN;
-        }
-        if(isBackButtonEnabled){
+        if(isBackButtonEnabled) {
             layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        }else {
+        } else {
             layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         }
 
         layoutParams.format = PixelFormat.RGB_888;
         layoutParams.width = ActionBar.LayoutParams.MATCH_PARENT;
-        layoutParams.height = statusBarHeight;
+        layoutParams.height = ((int) Math.ceil(height * activity.getResources().getDisplayMetrics().density)) + getStatusBarHeight(activity);
         layoutParams.gravity = Gravity.TOP;
         layoutParams.windowAnimations = animationStyle.getStyle(activity);
         return layoutParams;
@@ -408,6 +422,6 @@ public class CRToast {
         if (resourceId > 0) {
             result = activity.getResources().getDimensionPixelSize(resourceId);
         }
-        return result!=0;
+        return result != 0;
     }
 }

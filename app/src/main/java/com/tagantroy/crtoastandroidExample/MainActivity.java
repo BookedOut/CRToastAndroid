@@ -1,11 +1,9 @@
 package com.tagantroy.crtoastandroidExample;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,7 +114,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         notificationTextView.setBackgroundColor(ContextCompat.getColor(this,R.color.new_message_notification_background_color));
         notificationTextView.setGravity(android.view.Gravity.CENTER);
 
-        CRToast.Builder builder = new CRToast.Builder();
+        CRToast.Builder builder = new CRToast.Builder(this);
         builder.animationStyle(getAnimationStyle())
                 .notificationMessage(notificationEditText.getText().toString())
                 .subtitleText(subtitleEditText.getText().toString())
